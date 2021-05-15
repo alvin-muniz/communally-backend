@@ -4,29 +4,28 @@ package com.alvinmuniz.communallybackend.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
-@Table(name = "sessions")
-public class Session {
+@Table(name="contents")
+public class Content {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    private String author;
 
     @Column
-    private long startTime;
+    private String url;
 
     @Column
-    private long endTime;
+    private String title;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "session")
+    @ManyToOne
+    @JoinColumn(name = "reflection_id")
     private Reflection reflection;
 
 
