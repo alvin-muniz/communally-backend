@@ -20,20 +20,9 @@ public class CucumberHttpClient {
 
     private TestRestTemplate testRestTemplate = new TestRestTemplate();
 
-    public String getRequest(String endPoint) {
-        return "http://localhost:" + randomServerPort + BASE_URL+"/" + endPoint;
-    }
-
-    public ResponseEntity<?> returnGetRequestResults(String uri){
-        ResponseEntity<User> result = this.testRestTemplate.getForEntity(uri,
-                User.class);
-        return result;
-    }
-
     public ResponseEntity<User> returnPostRequestResults(String uri, User user){
-        ResponseEntity<User> response = this.testRestTemplate.postForEntity(uri
-                , user,
-                User.class);
+        ResponseEntity<User> response =
+                this.testRestTemplate.postForEntity("http://localhost:" + randomServerPort + BASE_URL + "/" + uri, user, User.class);
         return response;
     }
 
