@@ -18,8 +18,7 @@ class UserControllerTest {
 
     private final String BASE_URL = "/auth/users";
 
-    @Autowired
-    private TestRestTemplate testRestTemplate;
+    private TestRestTemplate testRestTemplate = new TestRestTemplate();
 
     @Autowired
     private MockMvc mockMvc;

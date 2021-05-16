@@ -3,10 +3,9 @@ package com.alvinmuniz.communallybackend.controller;
 import com.alvinmuniz.communallybackend.models.User;
 import com.alvinmuniz.communallybackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
 @RestController
@@ -17,7 +16,7 @@ public class UserController {
 
     private final String BASE_URL = "/auth/users";
 
-    @Autowired
+
     private TestRestTemplate restTemplate;
 
     @Autowired
@@ -25,9 +24,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("register")
-    public User userRegister(@RequestBody User user) {
-        return this.userService.saveUser(user);
+    @PostMapping("register")
+    public ResponseEntity<User> userRegister(@RequestBody User user) {
+        return new ResponseEntity<>(this.userService.saveUser(user), HttpStatus.OK);
     }
 
 }

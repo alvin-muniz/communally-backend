@@ -7,8 +7,8 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         plugin = {"pretty", "json:target/cucumber.json"},
-        features = "classpath:features"
-      //  extraGlue = ""
+        features = "classpath:features",
+        extraGlue = "com.alvinmuniz.communallybackend.cucumbertests"
 )
 public class RunCucumberTest {
 }
