@@ -48,5 +48,23 @@ class UserServiceTest {
         verify(userRepository, times(1)).save(any(User.class));
     }
 
+    @Test
+    public void loginRequestSent_ReturnsJWTToken() {
+        String jwt = "";
+        //GIven valid login credentials
+
+        //WHen send request for JWT Token
+        //Then send back JWT Token for perusal
+        assertNotNull(jwt);
+    }
+
+    @Test
+    public void findUserByEmailAddress() {
+        User user = new User();
+        user.setEmailAddress("test@email.com");
+        userService.findByEmailAddress("test@email.com");
+        verify(userRepository, times(1)).findByEmailAddress(user.getEmailAddress());
+    }
+
 
 }

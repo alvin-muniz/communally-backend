@@ -38,11 +38,10 @@ public class UserLoginSteps {
      */
     @Given("I am a visitor to your site accessing \\/register end point")
     public void i_am_a_visitor_to_your_site_accessing_register_end_point() {
-        user.setEmail("user@email.com");
+        user.setEmailAddress("user@email.com");
         user.setUsername("testUser");
         user.setPassword("123456");
     }
-
 
     @When("I complete registration by sending a username and password for registration")
     public void i_complete_registration_by_sending_a_username_and_password_for_registration() {
@@ -50,19 +49,41 @@ public class UserLoginSteps {
                 userHttpClient.returnPostRequestResults("register", user);
         assertNotNull(response);
     }
+
     @Then("I am notified of a successful registration")
     public void i_am_notified_of_a_successful_registration() {
         // Write code here that turns the phrase above into concrete actions
         System.out.println();
         assertEquals(200,response.getStatusCodeValue());
     }
+
     @Then("A response is generated with the credentials I provided")
     public void a_response_is_generated_with_the_credentials_i_provided() {
         // Write code here that turns the phrase above into concrete actions
         User responseUser = (User) response.getBody();
         assertNotNull(responseUser.getId());
         assertEquals(user.getUsername(), responseUser.getUsername());
-        assertEquals(user.getEmail(), responseUser.getEmail());
+        assertEquals(user.getEmailAddress(), responseUser.getEmailAddress());
     }
+
+    @Given("I am a user who has registered")
+    public void i_am_a_user_who_has_registered() {
+        User responseUser = (User) response.getBody();
+        /*** confirms user is registered via presence of ID*/
+        assertNotNull(responseUser.getId());
+    }
+
+
+    @When("I send a login request with my login credentials")
+    public void i_send_a_login_request_with_my_login_credentials() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+    @Then("I receive a valid JWT token in response to authenticate me in the database")
+    public void i_receive_a_valid_jwt_token_in_response_to_authenticate_me_in_the_database() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+
 
 }

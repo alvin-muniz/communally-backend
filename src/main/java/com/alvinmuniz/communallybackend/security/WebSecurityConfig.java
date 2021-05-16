@@ -1,12 +1,57 @@
 package com.alvinmuniz.communallybackend.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.context.WebApplicationContext;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private MyUserDetailsService myUserDetailsService;
+
+    @Autowired
+    private CustomFilter customFilter;
+
+    @Bean
+    public PasswordEncoder encoder() { return new BCryptPasswordEncoder(); }
+
+    @Autowired
+    public void setMyUserDetailsService(MyUserDetailsService myUserDetailsService) {
+        this.myUserDetailsService = myUserDetailsService;
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(myUserDetailsService);
+    }
+    @Bean
+    @Scope(value= WebApplicationContext.SCOPE_REQUEST, proxyMode =
+            ScopedProxyMode.TARGET_CLASS)
+    public MyUserDetails myUserDetails() {
+        return (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -16,6 +61,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable();
+        http.cors();
+        http.addFilterBefore(customFilter,
+                UsernamePasswordAuthenticationFilter.class);
     }
 
 }

@@ -22,7 +22,7 @@ public class User {
     private String password;
 
     @Column
-    private String email;
+    private String emailAddress;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
@@ -30,10 +30,10 @@ public class User {
 
     public User() { }
 
-    public User( String username, String password, String email) {
+    public User( String username, String password, String emailAddress) {
         this.username = username;
         this.password = password;
-        this.email = email;
+        this.emailAddress = emailAddress;
     }
 
     public Long getId() {
@@ -60,14 +60,6 @@ public class User {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public List<Session> getSessions() {
         return sessions;
     }
@@ -76,13 +68,20 @@ public class User {
         this.sessions = sessions;
     }
 
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getSessions(), user.getSessions());
+        return Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getEmailAddress(), user.getEmailAddress()) && Objects.equals(getSessions(), user.getSessions());
     }
-
 
 }
