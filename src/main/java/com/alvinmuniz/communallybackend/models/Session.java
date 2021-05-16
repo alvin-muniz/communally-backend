@@ -29,5 +29,21 @@ public class Session {
     @OneToOne(mappedBy = "session")
     private Reflection reflection;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Session() {
+    }
+
+    public Session( Date date, long startTime, long endTime, Reflection reflection, User user) {
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.reflection = reflection;
+        this.user = user;
+    }
+
 
 }

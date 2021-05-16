@@ -28,5 +28,12 @@ public class Content {
     @JoinColumn(name = "reflection_id")
     private Reflection reflection;
 
+    public Content() { }
 
+    public Content( String author, String url, String title, Reflection reflection) {
+        this.author = author;
+        this.url = url;
+        this.title = title;
+        this.reflection = reflection;
+    }
 }

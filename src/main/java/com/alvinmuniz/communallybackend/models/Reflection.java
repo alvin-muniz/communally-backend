@@ -20,8 +20,17 @@ public class Reflection {
     @Column
     private String entry;
 
+
     //One to Many relationship
     @JsonIgnore
     @OneToMany(mappedBy = "reflection")
     private List<Content> contentList;
+
+    public Reflection() { }
+
+    public Reflection(Session session, String entry) {
+        this.session = session;
+        this.entry = entry;
+    }
+
 }
