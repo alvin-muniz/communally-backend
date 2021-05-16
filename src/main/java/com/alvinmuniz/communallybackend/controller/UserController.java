@@ -1,5 +1,7 @@
 package com.alvinmuniz.communallybackend.controller;
 
+import com.alvinmuniz.communallybackend.models.Login.LoginRequest;
+import com.alvinmuniz.communallybackend.models.Login.LoginResponse;
 import com.alvinmuniz.communallybackend.models.User;
 import com.alvinmuniz.communallybackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,11 @@ public class UserController {
     @PostMapping("register")
     public ResponseEntity<User> userRegister(@RequestBody User user) {
         return new ResponseEntity<>(this.userService.saveUser(user), HttpStatus.OK);
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<LoginResponse> loginRegister(@RequestBody LoginRequest loginRequest) {
+        return this.userService.loginUser(loginRequest);
     }
 
 }
