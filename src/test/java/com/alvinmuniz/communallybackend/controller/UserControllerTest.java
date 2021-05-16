@@ -38,6 +38,5 @@ class UserControllerTest {
     @Test
     void userRegister() {
 
-        return null;
     }
 }
