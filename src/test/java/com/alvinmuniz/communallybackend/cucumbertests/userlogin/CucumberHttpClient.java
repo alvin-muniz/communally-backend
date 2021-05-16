@@ -30,7 +30,7 @@ public class CucumberHttpClient {
         return result;
     }
 
-    public ResponseEntity<?> returnPostRequestResults(String uri, User user){
+    public ResponseEntity<User> returnPostRequestResults(String uri, User user){
         ResponseEntity<User> response = this.testRestTemplate.postForEntity(uri
                 , user,
                 User.class);

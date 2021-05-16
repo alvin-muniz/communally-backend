@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @Scope(SCOPE_CUCUMBER_GLUE)
@@ -26,9 +26,14 @@ public class UserLoginSteps {
     @LocalServerPort
     private int randomServerPort;
 
+    // POJOS for testing purposes
     User user = new User();
+    ResponseEntity<?> response;
 
 
+    /***
+     * Checks if access to "auth/users/register" is 200 status"
+     */
     @Given("I am a visitor to your site accessing \\/register end point")
     public void i_am_a_visitor_to_your_site_accessing_register_end_point() {
 
@@ -36,7 +41,8 @@ public class UserLoginSteps {
         user.setUsername("testUser");
         user.setPassword("123456");
 
-        ResponseEntity<?> response =
+        // sends request to the server
+        response =
                 userHttpClient.returnPostRequestResults(userHttpClient.getRequest(
                         "register"), user);
 
@@ -48,8 +54,12 @@ public class UserLoginSteps {
     @When("I complete registration by sending a username and password for registration")
     public void i_complete_registration_by_sending_a_username_and_password_for_registration() {
         // Write code here that turns the phrase above into concrete actions
+        assertNull(user.getId());
+        User foundUser = (User) response.getBody();
+        assertNotNull(foundUser.getId());
+        assertEquals(user.getUsername(), foundUser.getUsername());
+        assertEquals(user.getEmail(), foundUser.getEmail());
 
-        throw new io.cucumber.java.PendingException();
     }
     @Then("I am notified of a successful registration")
     public void i_am_notified_of_a_successful_registration() {
