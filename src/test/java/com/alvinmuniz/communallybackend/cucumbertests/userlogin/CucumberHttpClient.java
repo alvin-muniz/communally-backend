@@ -1,5 +1,7 @@
 package com.alvinmuniz.communallybackend.cucumbertests.userlogin;
 
+import com.alvinmuniz.communallybackend.models.Login.LoginRequest;
+import com.alvinmuniz.communallybackend.models.Login.LoginResponse;
 import com.alvinmuniz.communallybackend.models.User;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -21,10 +23,20 @@ public class CucumberHttpClient {
     private TestRestTemplate testRestTemplate = new TestRestTemplate();
 
     public ResponseEntity<User> returnPostRequestResults(String uri, User user){
+
         ResponseEntity<User> response =
                 this.testRestTemplate.postForEntity("http://localhost:" + randomServerPort + BASE_URL + "/" + uri, user, User.class);
+
         return response;
     }
+
+    public ResponseEntity<?> returnLoginRequestResults(String uri
+            , LoginRequest loginRequest) {
+        ResponseEntity<?> response =
+                this.testRestTemplate.postForEntity("http://localhost:" + randomServerPort + BASE_URL + "/" + uri, loginRequest, LoginResponse.class);
+        return response;
+    }
+
 
 
 

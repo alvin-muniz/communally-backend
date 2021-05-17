@@ -84,4 +84,5 @@ public class User {
         return Objects.equals(getId(), user.getId()) && Objects.equals(getUsername(), user.getUsername()) && Objects.equals(getPassword(), user.getPassword()) && Objects.equals(getEmailAddress(), user.getEmailAddress()) && Objects.equals(getSessions(), user.getSessions());
     }
 
+
 }

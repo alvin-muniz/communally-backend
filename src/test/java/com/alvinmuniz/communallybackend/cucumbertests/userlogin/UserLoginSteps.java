@@ -1,17 +1,16 @@
 package com.alvinmuniz.communallybackend.cucumbertests.userlogin;
 
+import com.alvinmuniz.communallybackend.models.Login.LoginRequest;
+import com.alvinmuniz.communallybackend.models.Login.LoginResponse;
 import com.alvinmuniz.communallybackend.models.User;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.junit.Cucumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
-
-import java.util.Arrays;
 
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,6 +30,9 @@ public class UserLoginSteps {
     // POJOS for testing purposes
     User user = new User();
     ResponseEntity<?> response;
+    User responseUser;
+    LoginRequest loginRequest = new LoginRequest();
+
 
 
     /***
@@ -60,29 +62,39 @@ public class UserLoginSteps {
     @Then("A response is generated with the credentials I provided")
     public void a_response_is_generated_with_the_credentials_i_provided() {
         // Write code here that turns the phrase above into concrete actions
-        User responseUser = (User) response.getBody();
+        responseUser = (User) response.getBody();
         assertNotNull(responseUser.getId());
         assertEquals(user.getUsername(), responseUser.getUsername());
         assertEquals(user.getEmailAddress(), responseUser.getEmailAddress());
     }
 
+
     @Given("I am a user who has registered")
     public void i_am_a_user_who_has_registered() {
-        User responseUser = (User) response.getBody();
-        /*** confirms user is registered via presence of ID*/
-        assertNotNull(responseUser.getId());
+        user.setEmailAddress("user@email.com");
+        user.setUsername("testUser");
+        user.setPassword("123456");
+        loginRequest.setEmailAddress(user.getEmailAddress());
+        loginRequest.setPassword(user.getPassword());
+
+        response = userHttpClient.returnLoginRequestResults("login",
+                loginRequest);
+        assertNotNull(response);
+
     }
 
 
     @When("I send a login request with my login credentials")
     public void i_send_a_login_request_with_my_login_credentials() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        assertEquals(200,response.getStatusCodeValue());
+        assertNotNull(response.getBody());
     }
     @Then("I receive a valid JWT token in response to authenticate me in the database")
     public void i_receive_a_valid_jwt_token_in_response_to_authenticate_me_in_the_database() {
         // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        LoginResponse foundRespone = (LoginResponse) response.getBody();
+        assertNotNull(foundRespone.getJwt());
+
     }
 
 

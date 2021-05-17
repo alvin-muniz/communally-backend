@@ -40,17 +40,4 @@ class UserControllerTest {
     void tearDown() {
     }
 
-    @Test
-    void userLogin() throws Exception {
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.post(
-                BASE_URL+"/login").accept(
-                MediaType.APPLICATION_JSON);
-
-        MvcResult mvcResult = mockMvc.perform(requestBuilder)
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
-        System.out.println(mvcResult.getResponse().getContentAsString());
-
-    }
 }

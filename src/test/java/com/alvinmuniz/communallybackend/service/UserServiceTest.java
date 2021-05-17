@@ -6,18 +6,19 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 /**
  * Testing to verift the repository methods are actually being called in the
@@ -26,45 +27,5 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 class UserServiceTest {
-
-    private UserService userService;
-
-    @MockBean
-    private UserRepository userRepository;
-
-    @BeforeEach
-    void setUp() {
-        userService = new UserService(userRepository);
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
-    @Test
-    public void whenSuccessfulSavedUser_thenReturnUser() {
-        User user = new User();
-        userService.saveUser(user);
-        verify(userRepository, times(1)).save(any(User.class));
-    }
-
-    @Test
-    public void loginRequestSent_ReturnsJWTToken() {
-        String jwt = "";
-        //GIven valid login credentials
-
-        //WHen send request for JWT Token
-        //Then send back JWT Token for perusal
-        assertNotNull(jwt);
-    }
-
-    @Test
-    public void findUserByEmailAddress() {
-        User user = new User();
-        user.setEmailAddress("test@email.com");
-        userService.findByEmailAddress("test@email.com");
-        verify(userRepository, times(1)).findByEmailAddress(user.getEmailAddress());
-    }
-
 
 }
