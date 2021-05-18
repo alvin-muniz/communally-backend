@@ -31,6 +31,7 @@ public class ReflectionController {
         return this.reflectionService.getReflectionByIdAndSessionId(reflectionId, sessionId);
     }
 
+
     @PostMapping("{sessionId}/reflections")
     public Reflection saveReflection(@PathVariable Long sessionId,
                                      @RequestBody Reflection reflection) {

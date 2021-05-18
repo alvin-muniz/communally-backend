@@ -1,5 +1,8 @@
 package com.alvinmuniz.communallybackend.service;
 
+import com.alvinmuniz.communallybackend.exception.DataExistsException;
+import com.alvinmuniz.communallybackend.exception.ReflectionNotFoundException;
+import com.alvinmuniz.communallybackend.exception.SessionNotFoundException;
 import com.alvinmuniz.communallybackend.models.Content;
 import com.alvinmuniz.communallybackend.models.Reflection;
 import com.alvinmuniz.communallybackend.models.Session;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Ref;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReflectionService {
@@ -45,14 +49,21 @@ public class ReflectionService {
 
     public List<Content> getReflectionAllContent(Long sessionId,
                                                  Long reflectionId) {
-        Reflection foundReflection =
-                this.reflectionRepository.findByIdAndSessionId(reflectionId,
-                        sessionId);
-
+        Optional<Reflection> foundReflection =
+                Optional.ofNullable(this.getReflectionByIdAndSessionId(reflectionId, sessionId));
+        if(!foundReflection.isPresent()){
+            throw new ReflectionNotFoundException(" No reflection found");
+        }
             return this.contentRepository.findAllByReflectionId(reflectionId);
     }
 
     public Reflection createReflection(Long sessionId, Reflection reflection) {
+
+        if(sessionService.getSessionByIdAndUserId(sessionId).getReflection() != null)
+        {
+            throw new DataExistsException("Cannot create more than 1 " +
+                    "reflection");
+        }
         Session foundSession =
                 sessionService.getSessionByIdAndUserId(sessionId);
         reflection.setSession(foundSession);
@@ -61,12 +72,13 @@ public class ReflectionService {
 
     public Content createReflectionContent(Long sessionId, Long reflectionId,
                                          Content content) {
-        Reflection foundReflection =
-                this.getReflectionByIdAndSessionId(reflectionId, sessionId);
-
-        content.setReflection(foundReflection);
-
-        return contentRepository.save(content);
+        Optional<Reflection> foundReflection =
+                Optional.ofNullable(this.getReflectionByIdAndSessionId(reflectionId, sessionId));
+      if(!foundReflection.isPresent()){
+          throw new ReflectionNotFoundException("No reflection to add to");
+      }
+      content.setReflection(foundReflection.get());
+      return contentRepository.save(content);
     };
 
 
