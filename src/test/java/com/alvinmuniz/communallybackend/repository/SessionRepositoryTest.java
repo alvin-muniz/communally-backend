@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -65,11 +68,13 @@ class SessionRepositoryTest extends RepositoryTestingBase {
         sessionUnderTest.setUser(testUser);
         sessionRepoUnderTest.save(sessionUnderTest);
         Session foundSession = sessionRepoUnderTest.findByUserIdAndId(1L, 1L);
-        assertEquals(foundSession.getStartTime(), 0);
-        foundSession.setStartTime(109L);
+        assertEquals(foundSession.getDuration(), null);
+        foundSession.setDuration(Duration.of(Long.parseLong("109"),
+                ChronoUnit.SECONDS));
+        System.out.println(foundSession.getDuration());
         sessionRepoUnderTest.save(foundSession);
         foundSession = sessionRepoUnderTest.findByUserIdAndId(1L, 1L);
-        assertEquals(foundSession.getStartTime(), 109L);
+        assertEquals(foundSession.getDuration().getSeconds(), 109L);
         assertEquals(foundSession.getId(),1L);
     }
 
