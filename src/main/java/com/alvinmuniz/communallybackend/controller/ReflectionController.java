@@ -7,6 +7,8 @@ import com.alvinmuniz.communallybackend.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/sessions/")
 public class ReflectionController {
@@ -41,5 +43,12 @@ public class ReflectionController {
                                      @RequestBody Content content) {
       return this.reflectionService.createReflectionContent(sessionId,
               reflectionId,content);
+    }
+
+    @GetMapping("{sessionId}/reflections/{reflectionId}/content")
+    public List<Content> getAllReflectionContent(@PathVariable Long sessionId,
+                                                 @PathVariable Long reflectionId) {
+        return this.reflectionService.getReflectionAllContent(sessionId,
+                reflectionId);
     }
 }

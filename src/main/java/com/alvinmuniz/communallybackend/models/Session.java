@@ -19,7 +19,7 @@ public class Session {
     @Column
     private Long id;
 
-    @Column
+    @Column (unique = true)
     private LocalDate date;
 
     @Column

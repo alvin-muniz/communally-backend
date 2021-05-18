@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Ref;
+import java.util.List;
 
 @Service
 public class ReflectionService {
@@ -40,6 +41,15 @@ public class ReflectionService {
                                                     Long sessionId) {
         return reflectionRepository.findByIdAndSessionId(reflectionId,
                 sessionId);
+    }
+
+    public List<Content> getReflectionAllContent(Long sessionId,
+                                                 Long reflectionId) {
+        Reflection foundReflection =
+                this.reflectionRepository.findByIdAndSessionId(reflectionId,
+                        sessionId);
+
+            return this.contentRepository.findAllByReflectionId(reflectionId);
     }
 
     public Reflection createReflection(Long sessionId, Reflection reflection) {

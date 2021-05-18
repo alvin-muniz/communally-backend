@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -53,6 +54,7 @@ public class SessionService {
         MyUserDetails userDetails = (MyUserDetails)
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         session.setUser(userDetails.getUser());
+        session.setDate(LocalDate.now());
         Session createdSession = sessionRepository.save(session);
 
        return createdSession;
