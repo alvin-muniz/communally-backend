@@ -25,7 +25,7 @@ import static org.mockito.Mockito.*;
  * service and returning the specified output given the proper input
  */
 
-@ExtendWith(SpringExtension.class)
-class UserServiceTest {
-
-}
+//@ExtendWith(SpringExtension.class)
+//class UserServiceTest {
+//
+//}
