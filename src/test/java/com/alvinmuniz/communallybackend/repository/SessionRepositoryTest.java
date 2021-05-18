@@ -28,18 +28,13 @@ class SessionRepositoryTest extends RepositoryTestingBase {
     @Autowired
     private SessionRepository sessionRepoUnderTest;
 
+    @Autowired
+    private UserRepository userRepo;
+
     private User testUser;
 
     Session sessionUnderTest;
 
-
-    @BeforeEach
-    void setUp() {
-        sessionUnderTest = new Session();
-        testUser = new User();
-        testEntityManager.persist(testUser);
-        assertNotNull(testUser.getId());
-    }
 
     @AfterEach
     void tearDown() {
@@ -47,45 +42,22 @@ class SessionRepositoryTest extends RepositoryTestingBase {
 
     @Test
     public void loadUniqueSessionByUserIdAndId() {
-        sessionUnderTest.setUser(testUser);
-        sessionRepoUnderTest.save(sessionUnderTest);
 
-       assertEquals(sessionRepoUnderTest.findByUserIdAndId(1l, 1L),
-               sessionUnderTest);
     }
 
     @Test
     public void loadAllSessionsByUserId() {
-        List<Session> sessionList = new ArrayList<>();
-        sessionUnderTest.setUser(testUser);
-        sessionRepoUnderTest.save(sessionUnderTest);
-        sessionList.add(sessionUnderTest);
-        assertEquals(sessionRepoUnderTest.findAllByUserId(1L), sessionList);
+
     }
 
     @Test
     public void updateSessionByIdAndUserId() {
-        sessionUnderTest.setUser(testUser);
-        sessionRepoUnderTest.save(sessionUnderTest);
-        Session foundSession = sessionRepoUnderTest.findByUserIdAndId(1L, 1L);
-        assertEquals(foundSession.getDuration(), null);
-        foundSession.setDuration(Duration.of(Long.parseLong("109"),
-                ChronoUnit.SECONDS));
-        System.out.println(foundSession.getDuration());
-        sessionRepoUnderTest.save(foundSession);
-        foundSession = sessionRepoUnderTest.findByUserIdAndId(1L, 1L);
-        assertEquals(foundSession.getDuration().getSeconds(), 109L);
-        assertEquals(foundSession.getId(),1L);
+
     }
 
     @Test
     public void deleteSessionByIdAndUserId() {
-        sessionUnderTest.setUser(testUser);
-        sessionRepoUnderTest.save(sessionUnderTest);
-        assertEquals(sessionRepoUnderTest.findByUserIdAndId(1L, 1L),
-                sessionUnderTest);
-        sessionRepoUnderTest.deleteById(1L);
-        assertFalse(sessionRepoUnderTest.existsById(1L));
+
     }
 
 

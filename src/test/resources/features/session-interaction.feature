@@ -9,20 +9,11 @@ Feature: Sessions
     Then I am notified of a successful save
     And I am shown the successfully saved session filled out
 
-  Scenario: Update a meditation session
-    Given I am a user who has registered who has saved a session
-    When I select the saved meditation
-    And I can only modify the reflection
-    Then I receive successful response showing I was successfull
-    And I receive a copy of the updated reflection
-
-  Scenario: View a meditation
+  Scenario: View, Update and Delete a Meditation
     Given I am a user who has registered who has saved a session
     When I select the saved meditation
     Then I can view the meditation
-
-  Scenario: Delete a meditation
-    Given I am a user who has registered who has saved a session
-    When I select the saved meditation
-    Then I can delete the saved meditation
+    And I can only modify the reflection
+    Then I can save the meditation without creating a new one
+    And I can delete the meditation the saved meditation
 
