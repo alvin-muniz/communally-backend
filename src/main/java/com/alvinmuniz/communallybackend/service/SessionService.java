@@ -1,14 +1,38 @@
 package com.alvinmuniz.communallybackend.service;
 
+import com.alvinmuniz.communallybackend.exception.SessionNotFoundException;
 import com.alvinmuniz.communallybackend.models.Session;
 import com.alvinmuniz.communallybackend.models.User;
 import com.alvinmuniz.communallybackend.repository.SessionRepository;
 import com.alvinmuniz.communallybackend.security.MyUserDetails;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.boot.json.JsonParseException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+
 @Service
 public class SessionService {
+
+    //Utility Methods for parsing Json
+    protected String mapToJson(Object obj) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writeValueAsString(obj);
+    }
+
+    //Object from Json
+    protected <T> T mapFromJson(String json, Class<T> clazz)
+            throws JsonParseException, JsonMappingException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(json, clazz);
+    }
+
 
     private SessionRepository sessionRepository;
 
@@ -24,13 +48,26 @@ public class SessionService {
         return sessionRepository.findByUserIdAndId(userDetails.getUser().getId(), sessionId);
     }
 
+    public List<Session> getAllSessionsByUserId() {
+        return sessionRepository.findAllByUserId(getUser().getId());
+    }
+
+    /*
+    *
+    * JSON Shape
+    "id": 1,
+    "date": "2015-03-01",
+    "duration": "PT27H46M40S"
+    * */
 
     public Session createSession(Session session) {
+
         MyUserDetails userDetails = (MyUserDetails)
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         session.setUser(userDetails.getUser());
+        Session createdSession = sessionRepository.save(session);
 
-       return sessionRepository.save(session);
+       return createdSession;
     }
 
     public User getUser() {

@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/sessions")
 public class SessionController {
@@ -24,8 +26,13 @@ public class SessionController {
     }
 
     @GetMapping("{sessionId}")
-    public ResponseEntity<Session> createSession(@PathVariable Long sessionId) {
+    public ResponseEntity<Session> getSessionById(@PathVariable Long sessionId) {
         return new ResponseEntity<>(this.sessionService.getSessionByIdAndUserId(sessionId), HttpStatus.OK);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<Session>> getAllSessionsByUserId() {
+        return new ResponseEntity<>(this.sessionService.getAllSessionsByUserId(), HttpStatus.OK);
     }
 
 
