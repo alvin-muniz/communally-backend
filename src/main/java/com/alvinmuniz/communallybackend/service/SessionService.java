@@ -20,18 +20,6 @@ import java.util.List;
 @Service
 public class SessionService {
 
-    //Utility Methods for parsing Json
-    protected String mapToJson(Object obj) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(obj);
-    }
-
-    //Object from Json
-    protected <T> T mapFromJson(String json, Class<T> clazz)
-            throws JsonParseException, JsonMappingException, IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(json, clazz);
-    }
 
 
     private SessionRepository sessionRepository;

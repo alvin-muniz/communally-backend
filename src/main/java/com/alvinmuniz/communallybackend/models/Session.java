@@ -1,6 +1,7 @@
 package com.alvinmuniz.communallybackend.models;
 
 
+import com.alvinmuniz.communallybackend.models.enums.Mood;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -27,6 +28,14 @@ public class Session {
     @JsonIgnore
     @OneToOne(mappedBy = "session")
     private Reflection reflection;
+
+    @JsonIgnore
+    @Column
+    private Mood moodBefore;
+
+    @JsonIgnore
+    @Column
+    private Mood moodAfter;
 
     @JsonIgnore
     @ManyToOne
@@ -82,6 +91,22 @@ public class Session {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Mood getMoodBefore() {
+        return moodBefore;
+    }
+
+    public void setMoodBefore(Mood moodBefore) {
+        this.moodBefore = moodBefore;
+    }
+
+    public Mood getMoodAfter() {
+        return moodAfter;
+    }
+
+    public void setMoodAfter(Mood moodAfter) {
+        this.moodAfter = moodAfter;
     }
 
     @Override

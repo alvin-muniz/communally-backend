@@ -1,4 +1,4 @@
-package com.alvinmuniz.communallybackend.models;
+package com.alvinmuniz.communallybackend.models.enums;
 
 public enum Category {
     Spirituality, Meditation, Psychedelic, Integration, Astrology, Archetypes
