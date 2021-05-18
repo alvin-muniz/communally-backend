@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReflectionRepository extends JpaRepository<Reflection, Long> {
 
+    Reflection findByIdAndSessionId(Long reflectionId, Long sessionId);
+
 }
