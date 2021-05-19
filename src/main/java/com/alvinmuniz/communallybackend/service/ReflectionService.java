@@ -37,10 +37,6 @@ public class ReflectionService {
         this.contentRepository = contentRepository;
     }
 
-    public static void main(String[] args) {
-        Reflection reflection = new Reflection();
-    }
-
     public Reflection getReflectionByIdAndSessionId(Long reflectionId,
                                                     Long sessionId) {
         return reflectionRepository.findByIdAndSessionId(reflectionId,
@@ -66,6 +62,7 @@ public class ReflectionService {
         }
         Session foundSession =
                 sessionService.getSessionByIdAndUserId(sessionId);
+
         reflection.setSession(foundSession);
         return reflectionRepository.save(reflection);
     }

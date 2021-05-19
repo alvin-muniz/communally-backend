@@ -29,11 +29,11 @@ public class Session {
     @OneToOne(mappedBy = "session")
     private Reflection reflection;
 
-    @JsonIgnore
+
     @Column
     private Mood moodBefore;
 
-    @JsonIgnore
+
     @Column
     private Mood moodAfter;
 

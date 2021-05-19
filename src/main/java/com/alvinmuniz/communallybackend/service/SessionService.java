@@ -3,6 +3,7 @@ package com.alvinmuniz.communallybackend.service;
 import com.alvinmuniz.communallybackend.exception.SessionNotFoundException;
 import com.alvinmuniz.communallybackend.models.Session;
 import com.alvinmuniz.communallybackend.models.User;
+import com.alvinmuniz.communallybackend.models.enums.Mood;
 import com.alvinmuniz.communallybackend.repository.SessionRepository;
 import com.alvinmuniz.communallybackend.security.MyUserDetails;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,8 +21,6 @@ import java.util.List;
 
 @Service
 public class SessionService {
-
-
 
     private SessionRepository sessionRepository;
 
@@ -55,6 +54,8 @@ public class SessionService {
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         session.setUser(userDetails.getUser());
         session.setDate(LocalDate.now());
+        session.setMoodBefore(Mood.POSITIVE);
+        session.setMoodAfter(Mood.NEGATIVE);
         Session createdSession = sessionRepository.save(session);
 
        return createdSession;
