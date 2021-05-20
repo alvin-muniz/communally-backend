@@ -59,8 +59,6 @@ public class SessionService {
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         session.setUser(userDetails.getUser());
         session.setDate(LocalDate.now());
-        session.setMoodBefore(Mood.POSITIVE);
-        session.setMoodAfter(Mood.NEGATIVE);
         if(session.getReflection() != null)
         {
            Reflection savedReflection =
