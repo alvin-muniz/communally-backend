@@ -25,6 +25,7 @@ public class Session {
     @Column
     private Duration duration;
 
+
     @JsonIgnore
     @OneToOne(mappedBy = "session")
     private Reflection reflection;

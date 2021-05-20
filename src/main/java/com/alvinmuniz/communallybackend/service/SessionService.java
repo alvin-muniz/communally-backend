@@ -1,9 +1,11 @@
 package com.alvinmuniz.communallybackend.service;
 
 import com.alvinmuniz.communallybackend.exception.SessionNotFoundException;
+import com.alvinmuniz.communallybackend.models.Reflection;
 import com.alvinmuniz.communallybackend.models.Session;
 import com.alvinmuniz.communallybackend.models.User;
 import com.alvinmuniz.communallybackend.models.enums.Mood;
+import com.alvinmuniz.communallybackend.repository.ReflectionRepository;
 import com.alvinmuniz.communallybackend.repository.SessionRepository;
 import com.alvinmuniz.communallybackend.security.MyUserDetails;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -23,11 +25,14 @@ import java.util.List;
 public class SessionService {
 
     private SessionRepository sessionRepository;
+    private ReflectionRepository reflectionRepository;
 
     private MyUserDetails myUserDetails;
 
-    public SessionService(SessionRepository sessionRepository) {
+    public SessionService(SessionRepository sessionRepository,
+                          ReflectionRepository reflectionRepository) {
         this.sessionRepository = sessionRepository;
+        this.reflectionRepository = reflectionRepository;
     }
 
     public Session getSessionByIdAndUserId(Long sessionId) {
@@ -56,8 +61,17 @@ public class SessionService {
         session.setDate(LocalDate.now());
         session.setMoodBefore(Mood.POSITIVE);
         session.setMoodAfter(Mood.NEGATIVE);
-        Session createdSession = sessionRepository.save(session);
+        if(session.getReflection() != null)
+        {
+           Reflection savedReflection =
+                   this.reflectionRepository.save(session.getReflection());
+            Session createdSession = sessionRepository.save(session);
+            savedReflection.setSession(createdSession);
+            this.reflectionRepository.save(savedReflection);
+            return createdSession;
+        }
 
+        Session createdSession = sessionRepository.save(session);
        return createdSession;
     }
 

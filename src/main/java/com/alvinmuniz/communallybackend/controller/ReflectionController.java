@@ -28,7 +28,13 @@ public class ReflectionController {
     public Reflection getReflectionByIdAndSessionId(
             @PathVariable Long sessionId, @PathVariable Long reflectionId
     ) {
-        return this.reflectionService.getReflectionByIdAndSessionId(reflectionId, sessionId);
+        Reflection foundReflection =
+                this.reflectionService.getReflectionByIdAndSessionId(reflectionId, sessionId);
+        System.out.println(foundReflection.getId());
+        System.out.println(foundReflection.getSession());
+        System.out.println(foundReflection.getContentList());
+
+        return foundReflection;
     }
 
 
