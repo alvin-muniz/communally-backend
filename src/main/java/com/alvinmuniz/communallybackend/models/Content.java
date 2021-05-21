@@ -1,6 +1,8 @@
 package com.alvinmuniz.communallybackend.models;
 
 
+import com.alvinmuniz.communallybackend.models.enums.Category;
+import com.alvinmuniz.communallybackend.models.enums.ContentType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -16,6 +18,12 @@ public class Content {
 
     @Column
     private String author;
+
+    @Column
+    private ContentType type;
+
+    @Column
+    private Category category;
 
     @Column
     private String url;

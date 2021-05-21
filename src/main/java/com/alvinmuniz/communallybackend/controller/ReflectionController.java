@@ -58,4 +58,9 @@ public class ReflectionController {
         return this.reflectionService.getReflectionAllContent(sessionId,
                 reflectionId);
     }
+
+    @GetMapping("reflections")
+    public List<Reflection> getAllReflections() {
+        return this.reflectionService.getAllReflection();
+    }
 }

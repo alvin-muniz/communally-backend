@@ -9,4 +9,5 @@ public interface ReflectionRepository extends JpaRepository<Reflection, Long> {
 
     Reflection findByIdAndSessionId(Long reflectionId, Long sessionId);
 
+
 }

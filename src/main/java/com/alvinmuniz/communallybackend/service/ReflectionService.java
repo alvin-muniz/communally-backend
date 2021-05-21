@@ -43,6 +43,10 @@ public class ReflectionService {
                 sessionId);
     }
 
+    public List<Reflection> getAllReflection() {
+        return reflectionRepository.findAll();
+    }
+
     public List<Content> getReflectionAllContent(Long sessionId,
                                                  Long reflectionId) {
         Optional<Reflection> foundReflection =
